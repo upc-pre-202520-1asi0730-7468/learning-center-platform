@@ -1,7 +1,10 @@
 using ACME.LearningCenterPlatform.API.Shared.Domain.Repositories;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
+using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Cortex.Mediator.Commands;
+using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -58,8 +61,31 @@ builder.Services.AddSwaggerGen(options =>
 
 // Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-    
+
+// Mediator Configuration
+
+// Add Mediator Injection Configuration
+builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
+
+// Add Cortex Mediator for Event Handling
+builder.Services.AddCortexMediator(
+    configuration: builder.Configuration,
+    handlerAssemblyMarkerTypes: [typeof(Program)], configure: options =>
+    {
+        options.AddOpenCommandPipelineBehavior(typeof(LoggingCommandBehavior<>));
+        //options.AddDefaultBehaviors();
+    });
+
 var app = builder.Build();
+
+// Verify if the database exists and create it if it doesn't
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+
+    context.Database.EnsureCreated();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
