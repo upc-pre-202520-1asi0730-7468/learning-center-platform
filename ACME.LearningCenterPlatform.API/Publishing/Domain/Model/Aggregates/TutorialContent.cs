@@ -5,6 +5,14 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Domain.Model.Aggregates;
 
 public partial class Tutorial : IPublishable
 {
+    public Tutorial()
+    {
+        Title = string.Empty;
+        Summary = string.Empty;
+        Assets = new List<Asset>();
+        Status = EPublishingStatus.Draft;
+    }
+    
     public ICollection<Asset> Assets { get; }
     
     public EPublishingStatus Status { get; protected set; }
@@ -49,13 +57,13 @@ public partial class Tutorial : IPublishable
     }
     
     private bool ExistsImageByUrl(string imageUrl) => 
-        Assets.Any(asset => asset.Type == EAssetType.Image && asset.GetContent() == imageUrl);
+        Assets.Any(asset => asset.Type == EAssetType.Image && (string)asset.GetContent() == imageUrl);
     
     private bool ExistsVideoByUrl(string videoUrl) => 
-        Assets.Any(asset => asset.Type == EAssetType.Video && asset.GetContent() == videoUrl);
+        Assets.Any(asset => asset.Type == EAssetType.Video && (string)asset.GetContent() == videoUrl);
     
     private bool ExistsReadableContent(string content) => 
-        Assets.Any(asset => asset.Type == EAssetType.ReadableContentItem && asset.GetContent() == content);
+        Assets.Any(asset => asset.Type == EAssetType.ReadableContentItem && (string)asset.GetContent() == content);
 
     public void AddImage(string imageUrl)
     {
