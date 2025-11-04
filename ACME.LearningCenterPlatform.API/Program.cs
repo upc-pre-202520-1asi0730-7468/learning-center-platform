@@ -1,10 +1,9 @@
-using ACME.LearningCenterPlatform.API.Shared.Domain.Repositories;
+using ACME.LearningCenterPlatform.API.Profiles.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using ACME.LearningCenterPlatform.API.Publishing.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
-using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Mediator.Cortex.Configuration;
+using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Mediator.Cortex.Configuration.Extensions;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
-using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
-using Cortex.Mediator.Commands;
-using Cortex.Mediator.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -60,21 +59,18 @@ builder.Services.AddSwaggerGen(options =>
 // Dependency Injection
 
 // Shared Bounded Context
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.AddSharedContextServices();
+
+// Publishing Bounded Context
+builder.AddPublishingContextServices();
+
+// Profiles Bounded Context
+
+builder.AddProfilesContextServices();
 
 // Mediator Configuration
 
-// Add Mediator Injection Configuration
-builder.Services.AddScoped(typeof(ICommandPipelineBehavior<>), typeof(LoggingCommandBehavior<>));
-
-// Add Cortex Mediator for Event Handling
-builder.Services.AddCortexMediator(
-    configuration: builder.Configuration,
-    handlerAssemblyMarkerTypes: [typeof(Program)], configure: options =>
-    {
-        options.AddOpenCommandPipelineBehavior(typeof(LoggingCommandBehavior<>));
-        //options.AddDefaultBehaviors();
-    });
+builder.AddCortexConfigurationServices();
 
 var app = builder.Build();
 
