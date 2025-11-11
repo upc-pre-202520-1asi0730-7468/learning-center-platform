@@ -5,19 +5,19 @@ using Microsoft.EntityFrameworkCore;
 namespace ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 
 /// <summary>
-/// Base implementation of the repository pattern for entities using Entity Framework Core.
+///     Base implementation of the repository pattern for entities using Entity Framework Core.
 /// </summary>
 /// <typeparam name="TEntity">The type of the entity.</typeparam>
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
 {
     /// <summary>
-    /// The database context.
+    ///     The database context.
     /// </summary>
     // ReSharper disable once MemberCanBePrivate.Global
     protected readonly AppDbContext Context;
 
     /// <summary>
-    /// Initializes a new instance of the BaseRepository class.
+    ///     Initializes a new instance of the BaseRepository class.
     /// </summary>
     /// <param name="context">The database context.</param>
     public BaseRepository(AppDbContext context)
@@ -27,7 +27,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
 
     /// <summary>
-    /// Asynchronously adds a new entity to the repository.
+    ///     Asynchronously adds a new entity to the repository.
     /// </summary>
     /// <param name="entity">The entity to add.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -37,7 +37,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     }
 
     /// <summary>
-    /// Asynchronously finds an entity by its identifier.
+    ///     Asynchronously finds an entity by its identifier.
     /// </summary>
     /// <param name="id">The identifier of the entity.</param>
     /// <returns>A task that represents the asynchronous operation, containing the entity if found, otherwise null.</returns>
@@ -47,7 +47,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     }
 
     /// <summary>
-    /// Updates an existing entity in the repository.
+    ///     Updates an existing entity in the repository.
     /// </summary>
     /// <param name="entity">The entity to update.</param>
     public void Update(TEntity entity)
@@ -56,7 +56,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     }
 
     /// <summary>
-    /// Removes an entity from the repository.
+    ///     Removes an entity from the repository.
     /// </summary>
     /// <param name="entity">The entity to remove.</param>
     public void Remove(TEntity entity)
@@ -65,7 +65,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     }
 
     /// <summary>
-    /// Asynchronously retrieves all entities from the repository.
+    ///     Asynchronously retrieves all entities from the repository.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation, containing an enumerable of all entities.</returns>
     public async Task<IEnumerable<TEntity>> ListAsync()
