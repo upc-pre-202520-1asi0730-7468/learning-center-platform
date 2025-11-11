@@ -1,12 +1,12 @@
+using ACME.LearningCenterPlatform.API.IAM.Infrastructure.Interfaces.ASP.Configuration.Extensions;
+using ACME.LearningCenterPlatform.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using ACME.LearningCenterPlatform.API.Profiles.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using ACME.LearningCenterPlatform.API.Publishing.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Documentation.OpenApi.Configuration.Extensions;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Mediator.Cortex.Configuration.Extensions;
-using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
+using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,36 +14,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-if (connectionString == null) throw new InvalidOperationException("Connection string not found.");
-
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-    else if (builder.Environment.IsProduction())
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Error);
-});
+// Add Database Services
+builder.AddDatabaseServices();
 
 // Open API Configuration
-builder.AddOpenApiConfigurationServices();
+builder.AddOpenApiDocumentationServices();
 
 // Dependency Injection
 
-// Shared Bounded Context
+// Bounded Context Services Registration
 builder.AddSharedContextServices();
-
-// Publishing Bounded Context
 builder.AddPublishingContextServices();
-
-// Profiles Bounded Context
-
 builder.AddProfilesContextServices();
+builder.AddIamContextServices();
 
 // Mediator Configuration
 builder.AddCortexConfigurationServices();
@@ -51,26 +34,12 @@ builder.AddCortexConfigurationServices();
 var app = builder.Build();
 
 // Verify if the database exists and create it if it doesn't
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var context = services.GetRequiredService<AppDbContext>();
-
-    context.Database.EnsureCreated();
-}
+app.UseDatabaseCreationAssurance();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
+app.UseOpenApiDocumentation();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
+app.UseRequestAuthorization();
 app.MapControllers();
-
 app.Run();
