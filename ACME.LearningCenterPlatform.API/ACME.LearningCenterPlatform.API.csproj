@@ -32,9 +32,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Publishing\Application\" />
-      <Folder Include="Publishing\Interfaces\" />
-      <Folder Include="Shared\Interfaces\" />
+        <Folder Include="Publishing\Application\"/>
+        <Folder Include="Publishing\Interfaces\"/>
     </ItemGroup>
 
 </Project>
