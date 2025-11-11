@@ -5,12 +5,15 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Domain.Model.Entities;
 
 public class Category(string name)
 {
+    public Category() : this(string.Empty)
+    {
+    }
+
+    public Category(CreateCategoryCommand command) : this(command.Name)
+    {
+    }
+
     public int Id { get; set; }
     public string Name { get; set; } = name;
     public List<Tutorial> Tutorials { get; } = [];
-
-
-    public Category() : this(string.Empty) { }
-
-    public Category(CreateCategoryCommand command) : this(command.Name) {} 
 }

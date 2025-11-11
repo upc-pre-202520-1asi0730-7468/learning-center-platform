@@ -4,23 +4,24 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Domain.Model.Entities;
 
 public class VideoAsset : Asset
 {
-    public Uri? VideoUri { get; private set;}
     public VideoAsset() : base(EAssetType.Video)
     {
         VideoUri = null;
     }
-    
+
     public VideoAsset(string videoUrl) : base(EAssetType.Video)
     {
         VideoUri = new Uri(videoUrl);
     }
-    
+
+    public Uri? VideoUri { get; }
+
+    public override bool Viewable => true;
+
+    public override bool Readable => false;
+
     public override string GetContent()
     {
         return VideoUri is not null ? VideoUri.AbsoluteUri : string.Empty;
     }
-    
-    public override bool Viewable => true;
-    
-    public override bool Readable => false;
 }

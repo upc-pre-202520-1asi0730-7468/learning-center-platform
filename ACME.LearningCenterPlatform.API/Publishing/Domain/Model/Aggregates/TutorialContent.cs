@@ -12,22 +12,19 @@ public partial class Tutorial : IPublishable
         Assets = new List<Asset>();
         Status = EPublishingStatus.Draft;
     }
-    
+
     public ICollection<Asset> Assets { get; }
-    
+
     public EPublishingStatus Status { get; protected set; }
-    
+
     public bool HasReadableAssets => Assets.Any(a => a.Readable);
-    
+
     public bool HasViewableAssets => Assets.Any(a => a.Viewable);
-    
+
     public bool Readable => HasReadableAssets;
-    
+
     public bool Viewable => HasViewableAssets;
-    
-    private bool HasAllAssetsWithStatus(EPublishingStatus status) => 
-        Assets.All(a => a.Status == status);
-    
+
     public void SendToEdit()
     {
         if (HasAllAssetsWithStatus(EPublishingStatus.ReadyToEdit))
@@ -55,28 +52,40 @@ public partial class Tutorial : IPublishable
     {
         Status = EPublishingStatus.ReadyToEdit;
     }
-    
-    private bool ExistsImageByUrl(string imageUrl) => 
-        Assets.Any(asset => asset.Type == EAssetType.Image && (string)asset.GetContent() == imageUrl);
-    
-    private bool ExistsVideoByUrl(string videoUrl) => 
-        Assets.Any(asset => asset.Type == EAssetType.Video && (string)asset.GetContent() == videoUrl);
-    
-    private bool ExistsReadableContent(string content) => 
-        Assets.Any(asset => asset.Type == EAssetType.ReadableContentItem && (string)asset.GetContent() == content);
+
+    private bool HasAllAssetsWithStatus(EPublishingStatus status)
+    {
+        return Assets.All(a => a.Status == status);
+    }
+
+    private bool ExistsImageByUrl(string imageUrl)
+    {
+        return Assets.Any(asset => asset.Type == EAssetType.Image && (string)asset.GetContent() == imageUrl);
+    }
+
+    private bool ExistsVideoByUrl(string videoUrl)
+    {
+        return Assets.Any(asset => asset.Type == EAssetType.Video && (string)asset.GetContent() == videoUrl);
+    }
+
+    private bool ExistsReadableContent(string content)
+    {
+        return Assets.Any(asset =>
+            asset.Type == EAssetType.ReadableContentItem && (string)asset.GetContent() == content);
+    }
 
     public void AddImage(string imageUrl)
     {
         if (ExistsImageByUrl(imageUrl)) return;
         Assets.Add(new ImageAsset(imageUrl));
     }
-    
+
     public void AddVideo(string videoUrl)
     {
         if (ExistsVideoByUrl(videoUrl)) return;
         Assets.Add(new VideoAsset(videoUrl));
     }
-    
+
     public void AddReadableContent(string content)
     {
         if (ExistsReadableContent(content)) return;
@@ -89,15 +98,18 @@ public partial class Tutorial : IPublishable
         if (asset is null) return;
         Assets.Remove(asset);
     }
-    
-    public void ClearAssets() => Assets.Clear();
+
+    public void ClearAssets()
+    {
+        Assets.Clear();
+    }
 
     public List<ContentItem> GetContent()
     {
         var content = new List<ContentItem>();
         if (Assets.Count > 0)
-            content.AddRange(Assets.Select(asset => 
-                new ContentItem(asset.Type.ToString(), 
+            content.AddRange(Assets.Select(asset =>
+                new ContentItem(asset.Type.ToString(),
                     asset.GetContent() as string ?? string.Empty)));
         return content;
     }
