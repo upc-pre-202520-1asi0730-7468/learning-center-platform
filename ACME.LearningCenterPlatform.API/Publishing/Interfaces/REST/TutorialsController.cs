@@ -76,6 +76,12 @@ public class TutorialsController(
         return CreatedAtAction(nameof(GetTutorialById), new { tutorialId = tutorial.Id }, tutorialResource);
     }
 
+    /// <summary>
+    ///     Get all tutorials
+    /// </summary>
+    /// <returns>
+    ///     The list of <see cref="TutorialResource" /> tutorials
+    /// </returns>
     [HttpGet]
     [SwaggerOperation(
         Summary = "Get all tutorials",
@@ -90,6 +96,19 @@ public class TutorialsController(
         return Ok(tutorialResources);
     }
 
+    /// <summary>
+    ///     Add a video to a tutorial
+    /// </summary>
+    /// <param name="resource">
+    ///     The <see cref="AddVideoAssetToTutorialResource" /> with the video data
+    /// </param>
+    /// <param name="tutorialId">
+    ///     The tutorial id
+    /// </param>
+    /// <returns>
+    ///     The <see cref="TutorialResource" /> with the tutorial updated if successful, otherwise it returns a response with
+    ///     <see cref="BadRequestResult" />
+    /// </returns>
     [HttpPost("{tutorialId:int}/videos")]
     [SwaggerOperation(
         Summary = "Add a video to a tutorial",

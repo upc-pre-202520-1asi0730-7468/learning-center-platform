@@ -8,6 +8,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace ACME.LearningCenterPlatform.API.Profiles.Interfaces.REST;
 
+/// <summary>
+/// Controller for managing profiles.
+/// </summary>
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
@@ -17,6 +20,11 @@ public class ProfilesController(
     IProfileQueryService profileQueryService)
     : ControllerBase
 {
+    /// <summary>
+    /// Gets a profile by its unique identifier.
+    /// </summary>
+    /// <param name="profileId">The unique identifier of the profile.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the profile resource if found, or NotFound if not.</returns>
     [HttpGet("{profileId:int}")]
     [SwaggerOperation("Get Profile by Id", "Get a profile by its unique identifier.", OperationId = "GetProfileById")]
     [SwaggerResponse(200, "The profile was found and returned.", typeof(ProfileResource))]
@@ -30,6 +38,11 @@ public class ProfilesController(
         return Ok(profileResource);
     }
 
+    /// <summary>
+    /// Creates a new profile.
+    /// </summary>
+    /// <param name="resource">The resource containing the profile data to create.</param>
+    /// <returns>An <see cref="IActionResult"/> containing the created profile resource, or BadRequest if creation failed.</returns>
     [HttpPost]
     [SwaggerOperation("Create Profile", "Create a new profile.", OperationId = "CreateProfile")]
     [SwaggerResponse(201, "The profile was created.", typeof(ProfileResource))]
@@ -43,6 +56,10 @@ public class ProfilesController(
         return CreatedAtAction(nameof(GetProfileById), new { profileId = profile.Id }, profileResource);
     }
 
+    /// <summary>
+    /// Gets all profiles.
+    /// </summary>
+    /// <returns>An <see cref="IActionResult"/> containing a collection of profile resources.</returns>
     [HttpGet]
     [SwaggerOperation("Get All Profiles", "Get all profiles.", OperationId = "GetAllProfiles")]
     [SwaggerResponse(200, "The profiles were found and returned.", typeof(IEnumerable<ProfileResource>))]

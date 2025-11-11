@@ -37,9 +37,7 @@ public interface IProfileQueryService
     ///     The <see cref="GetProfileByIdQuery" /> query
     /// </param>
     /// <returns>
-    ///     <
-    ///         A
-    ///     <see cref="Profile" /> object or null
-    ///     /returns>
+    ///     A <see cref="Profile" /> object or null
+    /// </returns>
     Task<Profile?> Handle(GetProfileByIdQuery query);
 }

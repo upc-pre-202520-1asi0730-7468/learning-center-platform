@@ -14,7 +14,9 @@ public interface ICategoryQueryService
     /// <param name="query">
     ///     The <see cref="GetCategoryByIdQuery" /> query to handle.
     /// </param>
-    /// <returns></returns>
+    /// <returns>
+    ///     The <see cref="Category" /> if found, otherwise null.
+    /// </returns>
     Task<Category?> Handle(GetCategoryByIdQuery query);
 
     /// <summary>

@@ -24,7 +24,7 @@ public static class TutorialResourceFromEntityAssembler
             entity.Id,
             entity.Title,
             entity.Summary,
-            CategoryResourceFromEntityAssembler.ToResourceFromEntity(entity.Category),
+            CategoryResourceFromEntityAssembler.ToResourceFromEntity(entity.Category!),
             entity.Status.GetDisplayName());
     }
 }

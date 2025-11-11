@@ -14,7 +14,7 @@ public static class AddVideoAssetToTutorialCommandFromResourceAssembler
     /// <param name="resource">
     ///     The <see cref="AddVideoAssetToTutorialResource" /> resource
     /// </param>
-    /// <param name="TutorialId">
+    /// <param name="tutorialId">
     ///     The tutorial id to add the video asset to
     /// </param>
     /// <returns>

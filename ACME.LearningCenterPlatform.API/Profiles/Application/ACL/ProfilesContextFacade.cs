@@ -20,7 +20,18 @@ public class ProfilesContextFacade(
     IProfileQueryService profileQueryService
 ) : IProfilesContextFacade
 {
-    // inheritedDoc
+    /// <summary>
+    /// Creates a new profile.
+    /// </summary>
+    /// <param name="firstName">The first name.</param>
+    /// <param name="lastName">The last name.</param>
+    /// <param name="email">The email address.</param>
+    /// <param name="street">The street address.</param>
+    /// <param name="number">The street number.</param>
+    /// <param name="city">The city.</param>
+    /// <param name="postalCode">The postal code.</param>
+    /// <param name="country">The country.</param>
+    /// <returns>The profile ID if created, otherwise 0.</returns>
     public async Task<int> CreateProfile(string firstName, string lastName, string email, string street, string number,
         string city,
         string postalCode, string country)
@@ -31,7 +42,11 @@ public class ProfilesContextFacade(
         return profile?.Id ?? 0;
     }
 
-    // inheritedDoc
+    /// <summary>
+    /// Fetches the profile ID by email.
+    /// </summary>
+    /// <param name="email">The email address.</param>
+    /// <returns>The profile ID if found, otherwise 0.</returns>
     public async Task<int> FetchProfileIdByEmail(string email)
     {
         var getProfileByEmailQuery = new GetProfileByEmailQuery(new EmailAddress(email));

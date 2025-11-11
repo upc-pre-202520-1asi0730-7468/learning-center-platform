@@ -8,6 +8,10 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 
+/// <summary>
+/// Controller for managing tutorials by category.
+/// </summary>
+/// <param name="tutorialQueryService">The tutorial query service.</param>
 [ApiController]
 [Route("api/v1/categories/{categoryId:int}/tutorials")]
 [Produces(MediaTypeNames.Application.Json)]

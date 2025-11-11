@@ -5,9 +5,18 @@ using ACME.LearningCenterPlatform.API.IAM.Interfaces.ACL;
 
 namespace ACME.LearningCenterPlatform.API.IAM.Application.ACL.Services;
 
+/// <summary>
+/// Facade for the IAM context, providing access to user-related operations.
+/// </summary>
 public class IamContextFacade(IUserCommandService userCommandService, IUserQueryService userQueryService)
     : IIamContextFacade
 {
+    /// <summary>
+    /// Creates a new user with the specified username and password.
+    /// </summary>
+    /// <param name="username">The username for the new user.</param>
+    /// <param name="password">The password for the new user.</param>
+    /// <returns>The ID of the created user, or 0 if creation failed.</returns>
     public async Task<int> CreateUser(string username, string password)
     {
         var signUpCommand = new SignUpCommand(username, password);
@@ -17,6 +26,11 @@ public class IamContextFacade(IUserCommandService userCommandService, IUserQuery
         return result?.Id ?? 0;
     }
 
+    /// <summary>
+    /// Fetches the user ID by username.
+    /// </summary>
+    /// <param name="username">The username to search for.</param>
+    /// <returns>The user ID if found, otherwise 0.</returns>
     public async Task<int> FetchUserIdByUsername(string username)
     {
         var getUserByUsernameQuery = new GetUserByUsernameQuery(username);
@@ -24,6 +38,11 @@ public class IamContextFacade(IUserCommandService userCommandService, IUserQuery
         return result?.Id ?? 0;
     }
 
+    /// <summary>
+    /// Fetches the username by user ID.
+    /// </summary>
+    /// <param name="userId">The user ID to search for.</param>
+    /// <returns>The username if found, otherwise an empty string.</returns>
     public async Task<string> FetchUsernameByUserId(int userId)
     {
         var getUserByIdQuery = new GetUserByIdQuery(userId);
