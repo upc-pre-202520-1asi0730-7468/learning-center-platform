@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace ACME.LearningCenterPlatform.API.Shared.Infrastructure.Interfaces.ASP.Configuration.Extensions;
 
 /// <summary>
-/// Provides extension methods for string manipulation related to ASP.NET configuration.
+///     Provides extension methods for string manipulation related to ASP.NET configuration.
 /// </summary>
 public static partial class StringExtensions
 {
@@ -11,7 +11,7 @@ public static partial class StringExtensions
     private static partial Regex KebabCaseRegex();
 
     /// <summary>
-    /// Converts a string to kebab-case casing, e.g. "MyString" becomes "my-string"
+    ///     Converts a string to kebab-case casing, e.g. "MyString" becomes "my-string"
     /// </summary>
     /// <param name="text">The string to convert.</param>
     /// <returns>The string in the kebab-case.</returns>
@@ -22,5 +22,4 @@ public static partial class StringExtensions
             .Trim()
             .ToLower();
     }
-
 }
