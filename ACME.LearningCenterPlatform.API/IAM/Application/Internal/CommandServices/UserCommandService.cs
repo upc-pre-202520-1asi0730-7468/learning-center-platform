@@ -21,7 +21,7 @@ public class UserCommandService(
     ///     Authenticate a user using the provided credentials.
     /// </summary>
     /// <param name="command">The sign-in command containing username and password.</param>
-    /// <returns>A tuple with the authenticated <see cref="User" /> and the generated JWT token.</returns>
+    /// <returns>A tuple with the authenticated <see cref="User" /> and the generated Token.</returns>
     /// <exception cref="Exception">Thrown when credentials are invalid.</exception>
     public async Task<(User user, string token)> Handle(SignInCommand command)
     {
