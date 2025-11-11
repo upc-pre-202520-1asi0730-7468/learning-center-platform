@@ -5,5 +5,4 @@ namespace ACME.LearningCenterPlatform.API.Shared.Application.Internal.EventHandl
 
 public interface IEventHandler<in TEvent> : INotificationHandler<TEvent> where TEvent : IEvent
 {
-    
 }
