@@ -8,4 +8,9 @@ public static class WebApplicationExtensions
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    public static void UseCorsPolicy(this WebApplication app)
+    {
+        app.UseCors("AllowAllPolicy");
+    }
 }

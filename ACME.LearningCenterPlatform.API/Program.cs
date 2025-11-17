@@ -20,6 +20,9 @@ builder.AddDatabaseServices();
 // Open API Configuration
 builder.AddOpenApiDocumentationServices();
 
+// CORS Configuration
+builder.AddCorsServices();
+
 // Dependency Injection
 
 // Bounded Context Services Registration
@@ -38,6 +41,7 @@ app.UseDatabaseCreationAssurance();
 
 // Configure the HTTP request pipeline.
 app.UseOpenApiDocumentation();
+app.UseCorsPolicy();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseRequestAuthorization();
